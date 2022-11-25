@@ -1,6 +1,9 @@
 name: .NET
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  
+  pull_request:
 
 defaults:
  run:
@@ -8,29 +11,41 @@ defaults:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build --no-restore --configuration=Release
+      
+    - name: Test
+      run: dotnet test ../arm-estimator.sln
+      
     - name: Publish Windows
+      if: github.event=='workflow_dispatch'
       run: dotnet publish -p:PublishProfile=win-x64
+      
     - name: Publish Linux
+      if: github.event=='workflow_dispatch'
       run: dotnet publish -p:PublishProfile=linux-x64
+      
     - name: Upload Windows artifact
+      if: github.event=='workflow_dispatch'
       uses: actions/upload-artifact@v3.1.0
       with:
         name: win-64
         path: $GITHUB_WORKSPACE/arm-estimator/bin/Release/net6.0/publish/win-64
+        
     - name: Upload Linux artifact
+      if: github.event=='workflow_dispatch'
       uses: actions/upload-artifact@v3.1.0
       with:
         name: linux-64
