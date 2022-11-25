@@ -64,4 +64,4 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         
     - name: Test
-      run: dotnet test ./arm-estimator.sln
+      run: dotnet test ./arm-estimator-tests/arm-estimator-tests.csproj
