@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-    - uses: robinraju/release-downloader@v1.5
+    - uses: robinraju/release-downloader@v1.7
       name: Download Arm-Estimator release
       id: downloadACE
       with:
@@ -95,6 +95,7 @@ jobs:
         ACEZIP="arm-estimator-linux-x64-${{steps.downloadACE.outputs.tag_name}}.zip"
         echo $ACEZIP
         unzip $ACEZIP
+        ls
         chmod +x ./azure-cost-estimator
 
     - uses: azure/login@v1.4.6
