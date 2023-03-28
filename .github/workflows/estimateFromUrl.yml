@@ -92,9 +92,9 @@ jobs:
     - name: Unzip and prepare ACE
       run: |
         ls
-        echo ${{steps.downloadACE.outputs.tag_name}}
+        echo Using tag ${{steps.downloadACE.outputs.tag_name}}
         ACEZIP="arm-estimator-linux-x64-${{steps.downloadACE.outputs.tag_name}}.zip"
-        echo $ACEZIP
+        echo Unzipping $ACEZIP
         unzip $ACEZIP
         ls
         chmod +x ./azure-cost-estimator
